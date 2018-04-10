@@ -15,8 +15,6 @@ def computeCost(X,y,theta):
     :param theta:参数theta
     :return:cost值使用J表示
     '''
-    print(theta)
-    print('----------------------')
     m = len(y)
     J = 0
     temp1 = sigmoid(X.dot(theta))
@@ -56,7 +54,7 @@ def plotData(x1, x2,y, theta):
         else:
             plt.scatter(x1[i], x2[i], marker='o', color='blue')
 
-    print(theta[0][0], theta[1][0])
+    print('theta', theta[0][0], theta[1][0],theta[2][0])
     xl = np.arange(np.min(x1), np.max(x2), 0.001)
     yl = -1 / theta[2][0] * (theta[0][0] + theta[1][0] * xl)
     plt.plot(xl, yl, color='black', label='linerRegression', linewidth='1')
@@ -67,8 +65,8 @@ def pred():
     pass
 
 def main():
-    alpha = 0.01
-    iterations = 1500;
+    alpha = 0.001
+    iterations = 1000000;
 
     train_list = [];
     with open('ex2data1.txt', 'r') as f:
@@ -93,9 +91,9 @@ def main():
     # b为输入函数中的X，y即为输出y
     cost = computeCost(b, y, theta)
     # 输出初始的cost值
-    print(cost)
+    print('init cost' + str(cost))
     theta = gradientDescent(b, y, theta, alpha=alpha, iterations=iterations)
-    print(theta)
+    # print(theta)
     # plotData(theta)
     plotData(train_set[:, 0], train_set[:, 1],train_set[:,2], theta)
     # pred(theta)
