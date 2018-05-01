@@ -1,8 +1,11 @@
 import numpy as np
 import matplotlib.pyplot as plt
+from sklearn import preprocessing
 '''
 对于多元分类，使用使用多个逻辑回归进行分类
-对于训练好的额模型分别
+对于一个需要预测的数据，分别使用训练好的模型预测，最准确的即输出
+
+使用多元逻辑回归模型
 '''
 
 
@@ -14,7 +17,6 @@ def sigmoid(x):
 
 def computeCost(X,y,theta,lamb):
     '''
-
     :param X:X
     :param y:y
     :param theta:参数theta
@@ -55,14 +57,14 @@ def gradientDescent(X, y, theta, alpha, iterations,lamb):
     '''
     m = len(y)
     for i in range(iterations):
-        temp = alpha * (1.0 / m) * ((sigmoid(X.dot(theta)) - y) * X).sum(axis=0)
+        temp = (1.0 / m) * ((sigmoid(X.dot(theta)) - y) * X).sum(axis=0)
 
         temp = np.reshape(temp, [temp.shape[0], 1])
         rel = lamb / m * theta
         # temp上增加正则
         temp = temp + rel
-        temp[0][0] = (1 / m) * ((sigmoid(X.dot(theta)) - y) * X[:, 0]).sum()
-        theta = theta - temp
+        temp[0][0] = (1.0 / m) * ((sigmoid(X.dot(theta)) - y) * X[:, 0]).sum()
+        theta = theta - alpha * temp
 
     return theta
 
@@ -83,11 +85,15 @@ def plotData(x1, x2,y, theta):
     plt.show()
 
 
-def pred():
-    pass
+def pred(X,all_theta,y):
+    c = sigmoid(X.dot(all_theta.transpose()))
+    output = np.argmax(c,axis=1)
+    y = np.array([int(i[0])-1 for i in y])
+    acc = np.mean(output == y)
+    return acc
 
 def main():
-    alpha = 0.001
+    alpha = 0.01
     iterations = 50000;
 
     train_list = [];
@@ -109,17 +115,19 @@ def main():
     n = train_set.shape[1] - 1  # 数据集的维度
 
     X = train_set[:, 0:4]  # m*2
+    X = preprocessing.scale(X)
     # y = train_set[:,2]
     y = np.reshape(train_set[:, 4], [m, 1])  # m*1
 
-    b = np.concatenate((np.ones([m,1]),X),axis=1) #加入常数维度  m*3
+    b = np.concatenate((np.ones([m,1]),X),axis=1) #加入常数维度
+
     all_theta = np.zeros(shape=[3,n + 1])
 
     # b为输入函数中的X，y即为输出y
     all_theta = computeAllCostAndGradientDescent(b, y, all_theta,lamb=1,alpha = alpha,iterations=iterations)
     print(all_theta)
     # plotData(theta)
-    # pred(theta)
+    print (pred(b,all_theta,y))
 
 
 if __name__ == '__main__':
