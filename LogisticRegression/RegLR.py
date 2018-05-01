@@ -88,14 +88,14 @@ def gradientDescent(X, y, theta, alpha, iterations,lamb):
     # J_history = np.zeros(shape=[iterations, 1])
 
     for i in range(iterations):
-        temp = alpha * (1.0 / m) * ((sigmoid(X.dot(theta)) - y) * X).sum(axis=0)
+        temp = (1.0 / m) * ((sigmoid(X.dot(theta)) - y) * X).sum(axis=0)
 
         temp = np.reshape(temp,[temp.shape[0],1])
         rel = lamb / m * theta
         # temp上增加正则
         temp = temp + rel
-        temp[0][0] = (1/m)*((sigmoid(X.dot(theta))-y) * X[:,0]).sum()
-        theta = theta - temp
+        temp[0][0] = (1.0 / m) * ((sigmoid(X.dot(theta))-y) * X[:,0]).sum()
+        theta = theta - alpha * temp
 
     return theta
 
@@ -135,8 +135,8 @@ def predAndAcc(X,y,theta):
     return acc
 
 def main():
-    alpha = 0.01
-    iterations = 200000000
+    alpha = 0.001
+    iterations = 200000
 
     train_list = []
     with open('ex2data2.txt', 'r') as f:
@@ -164,7 +164,7 @@ def main():
     print (cost)
     theta = gradientDescent(X, y, theta, alpha=alpha, iterations=iterations,lamb=1)
     print (theta)
-    # plotData(train_set[:, 0], train_set[:, 1],train_set[:,2], theta)
+    plotData(train_set[:, 0], train_set[:, 1],train_set[:,2], theta)
     print (predAndAcc(X,y,theta))
 
 
