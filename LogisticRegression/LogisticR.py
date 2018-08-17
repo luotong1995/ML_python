@@ -60,7 +60,6 @@ def plotData(x1, x2,y, theta):
     plt.plot(xl, yl, color='black', label='linerRegression', linewidth='1')
     plt.show()
 
-
 def pred():
     pass
 

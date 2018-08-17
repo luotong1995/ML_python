@@ -69,9 +69,11 @@ def check():
         return False
     return True
 
+
 def pre(x):
-    global w,b
-    print(f(np.dot(w,x)+ b))
+    global w, b
+    print(f(np.dot(w, x) + b))
+
 
 def f(x):
     '''
@@ -81,7 +83,8 @@ def f(x):
     '''
     return 1 if x > 0 else -1
 
-def plotData(X,y,b,theta):
+
+def plotData(X, y, b, theta):
     plt.xlabel('x1')
     plt.ylabel('x2')
     m = len(y)
@@ -96,10 +99,11 @@ def plotData(X,y,b,theta):
     plt.plot(xl, yl, color='black', linewidth='1')
     plt.show()
 
+
 if __name__ == "__main__":
     Gram = cal_gram()  # initialize the Gram matrix
     for i in range(1000):
         if not check(): break
-    print(w,b)
-    plotData(x,y,b,w)
+    print(w, b)
+    plotData(x, y, b, w)
     pre(np.array([3, 1]))

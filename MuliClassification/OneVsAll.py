@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from sklearn import preprocessing
+
 '''
 对于多元分类，使用使用多个逻辑回归进行分类
 对于一个需要预测的数据，分别使用训练好的模型预测，最准确的即输出
@@ -12,10 +13,12 @@ from sklearn import preprocessing
 def strTOFloat(x):
     return float(x)
 
+
 def sigmoid(x):
     return 1.0 / (1. + np.exp(-x))
 
-def computeCost(X,y,theta,lamb):
+
+def computeCost(X, y, theta, lamb):
     '''
     :param X:X
     :param y:y
@@ -33,19 +36,20 @@ def computeCost(X,y,theta,lamb):
     J = J + rel
     return J
 
-def computeAllCostAndGradientDescent(X,y,all_theta,lamb,alpha,iterations):
 
+def computeAllCostAndGradientDescent(X, y, all_theta, lamb, alpha, iterations):
     m = len(y)
-    for c in range(1,4):
-        theta = np.zeros([X.shape[1],1])
+    for c in range(1, 4):
+        theta = np.zeros([X.shape[1], 1])
         b = [1 if item[0] == c else 0 for item in y]
         b = np.array(b)
-        b= b.reshape([len(b),1])
-        theta = gradientDescent(X,b,theta,alpha,iterations,lamb)
-        all_theta[c-1] = theta.reshape([1,theta.shape[0]])
+        b = b.reshape([len(b), 1])
+        theta = gradientDescent(X, b, theta, alpha, iterations, lamb)
+        all_theta[c - 1] = theta.reshape([1, theta.shape[0]])
     return all_theta
 
-def gradientDescent(X, y, theta, alpha, iterations,lamb):
+
+def gradientDescent(X, y, theta, alpha, iterations, lamb):
     '''
 
     :param X:X
@@ -68,7 +72,8 @@ def gradientDescent(X, y, theta, alpha, iterations,lamb):
 
     return theta
 
-def plotData(x1, x2,y, theta):
+
+def plotData(x1, x2, y, theta):
     plt.xlabel('x1')
     plt.ylabel('x2')
     m = len(y)
@@ -85,12 +90,13 @@ def plotData(x1, x2,y, theta):
     plt.show()
 
 
-def pred(X,all_theta,y):
+def pred(X, all_theta, y):
     c = sigmoid(X.dot(all_theta.transpose()))
-    output = np.argmax(c,axis=1)
-    y = np.array([int(i[0])-1 for i in y])
+    output = np.argmax(c, axis=1)
+    y = np.array([int(i[0]) - 1 for i in y])
     acc = np.mean(output == y)
     return acc
+
 
 def main():
     alpha = 0.01
@@ -110,7 +116,7 @@ def main():
                 odom[-1] = '3'
             numbers_float = list(map(strTOFloat, odom))  # 转化为浮点数
             train_list.append(numbers_float)
-    train_set = np.array(train_list,float)
+    train_set = np.array(train_list, float)
     m = train_set.shape[0]  # 数据集的数量
     n = train_set.shape[1] - 1  # 数据集的维度
 
@@ -119,15 +125,15 @@ def main():
     # y = train_set[:,2]
     y = np.reshape(train_set[:, 4], [m, 1])  # m*1
 
-    b = np.concatenate((np.ones([m,1]),X),axis=1) #加入常数维度
+    b = np.concatenate((np.ones([m, 1]), X), axis=1)  # 加入常数维度
 
-    all_theta = np.zeros(shape=[3,n + 1])
+    all_theta = np.zeros(shape=[3, n + 1])
 
     # b为输入函数中的X，y即为输出y
-    all_theta = computeAllCostAndGradientDescent(b, y, all_theta,lamb=1,alpha = alpha,iterations=iterations)
+    all_theta = computeAllCostAndGradientDescent(b, y, all_theta, lamb=1, alpha=alpha, iterations=iterations)
     print(all_theta)
     # plotData(theta)
-    print (pred(b,all_theta,y))
+    print(pred(b, all_theta, y))
 
 
 if __name__ == '__main__':
