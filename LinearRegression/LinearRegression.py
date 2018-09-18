@@ -57,9 +57,9 @@ def plotData(x, y, theta):
 
 def pred(theta):
     predict1 = np.dot([[1, 3.5]], theta)
-    print('For population = 35,000, we predict a profit of %f\n', predict1[0][0] * 10000);
+    print('For population = 35,000, we predict a profit of %f\n', predict1[0][0] * 10000)
     predict2 = np.dot([[1, 7]], theta)
-    print('For population = 70,000, we predict a profit of %f\n', predict2[0][0] * 10000);
+    print('For population = 70,000, we predict a profit of %f\n', predict2[0][0] * 10000)
 
 
 def main():

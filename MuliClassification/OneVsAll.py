@@ -100,9 +100,9 @@ def pred(X, all_theta, y):
 
 def main():
     alpha = 0.01
-    iterations = 50000;
+    iterations = 50000
 
-    train_list = [];
+    train_list = []
     with open('iris.data.txt', 'r') as f:
         data = f.readlines()  # txt中所有字符串读入data
         for line in data:

@@ -1,7 +1,4 @@
 # -*- coding:utf-8 -*-
-# Filename: train2.2.py
-# Author：hankcs
-# Date: 2015/1/31 15:15
 import numpy as np
 from matplotlib import pyplot as plt
 from matplotlib import animation
